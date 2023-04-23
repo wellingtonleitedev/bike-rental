@@ -1,5 +1,6 @@
 import { Divider, IconButton, Typography } from '@mui/material'
 import BikeType from 'components/BikeType'
+import BikeImage from 'components/BikeImage'
 import BikePlaceholder from 'assets/bike-placeholder.png'
 import Bike from 'models/Bike'
 import {
@@ -10,7 +11,6 @@ import {
   PriceText,
   ImageContainer,
   FavoriteIcon,
-  BikeImage,
 } from './BikeCard.styles'
 
 type JustDisplayedBikeData = Omit<Bike, 'candidateId' | 'maxLoad' | 'ratings'>
@@ -55,8 +55,6 @@ const BikeCard = ({
           <BikeImage
             src={cardImage}
             isLoaded={isImageLoaded}
-            width='100%'
-            alt='Bike Image'
             data-testid='bike-image'
             onLoadStart={() => handleIsImageLoaded(false)}
             onLoad={() => handleIsImageLoaded(true)}
