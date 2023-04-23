@@ -13,6 +13,10 @@ jest.mock('react-router-dom', () => ({
   useLocation: () => mockedUsedLocation,
 }))
 
+beforeEach(() => {
+  jest.useFakeTimers()
+})
+
 afterEach(() => {
   jest.runOnlyPendingTimers()
   jest.useRealTimers()
