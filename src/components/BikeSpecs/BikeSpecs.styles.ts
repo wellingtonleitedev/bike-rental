@@ -11,7 +11,9 @@ export const Container = styled(Card)<CardProps>(({ theme }) => ({
   marginBottom: 18,
 
   [theme.breakpoints.down('md')]: {
+    margin: '-20px 0 -70px',
     padding: 20,
+    position: 'sticky',
   },
 }))
 

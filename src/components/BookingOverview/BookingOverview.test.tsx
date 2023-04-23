@@ -31,9 +31,9 @@ describe('BookingOverview component', () => {
     render(<BookingOverview bike={mockedBike} booked onSubmit={mockSubmit} />)
 
     const thanksMessage = screen.getByText(/thank you/i)
-    const bikeNameElement = screen.getByText(mockedBike.name)
-    const bikeTypeElement = screen.getByText(mockedBike.type)
-    const imageElement = screen.getByTestId('bike-image')
+    const bikeNameElement = screen.getByTestId('bike-booked-name')
+    const bikeTypeElement = screen.getByTestId('bike-booked-type')
+    const imageElement = screen.getByTestId('bike-booked-image')
 
     expect(thanksMessage).toBeInTheDocument()
     expect(bikeNameElement).toBeInTheDocument()

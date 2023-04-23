@@ -8,7 +8,7 @@ describe('BikeType component', () => {
   })
 
   it('should has the bike type', () => {
-    const typeElement = screen.getByTestId('bike-type')
+    const typeElement = screen.getByText(mockedBike.type)
     expect(typeElement).toBeInTheDocument()
   })
 })

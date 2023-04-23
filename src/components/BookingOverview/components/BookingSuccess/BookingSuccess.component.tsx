@@ -15,12 +15,18 @@ const BookingSuccess = ({ bike }: BikeDetailsProps) => (
     </Typography>
     <Typography marginY={2.5}>Your bike is booked.</Typography>
     <ImageBox>
-      <BikeImage src={bike?.imageUrls[0]} data-testid='bike-image' isLoaded />
+      <BikeImage src={bike?.imageUrls[0]} data-testid='bike-booked-image' isLoaded />
     </ImageBox>
-    <Typography variant='h3' fontSize={18} fontWeight={700} marginY={[2, 1]}>
+    <Typography
+      variant='h3'
+      fontSize={18}
+      fontWeight={700}
+      marginY={[2, 1]}
+      data-testid='bike-booked-name'
+    >
       {bike?.name}
     </Typography>
-    <BikeType type={bike?.type} />
+    <BikeType type={bike?.type} data-testid='bike-booked-type' />
   </Container>
 )
 

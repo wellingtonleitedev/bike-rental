@@ -1,10 +1,13 @@
 import { render, screen } from '@testing-library/react'
 import { mockedBike } from 'mocks/Bike'
 import BikeCard from '.'
+import userEvent from '@testing-library/user-event'
 
 describe('BikeCard component', () => {
+  const mocKOnClick = jest.fn()
+
   beforeEach(() => {
-    render(<BikeCard bike={mockedBike} />)
+    render(<BikeCard bike={mockedBike} handleOpenBikeDetails={mocKOnClick} />)
   })
 
   it('should has an image', () => {
@@ -26,5 +29,12 @@ describe('BikeCard component', () => {
 
     const priceByDayElement = screen.getByTestId('bike-price-day')
     expect(priceByDayElement).toBeInTheDocument()
+  })
+
+  it('should call a function when click on the card', () => {
+    const cardElement = screen.getByTestId('bike-type')
+    userEvent.click(cardElement)
+
+    expect(mocKOnClick).toHaveBeenCalled()
   })
 })

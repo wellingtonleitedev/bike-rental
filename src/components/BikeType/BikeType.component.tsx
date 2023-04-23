@@ -1,11 +1,11 @@
-import { Chip } from '@mui/material'
+import { Chip, ChipProps } from '@mui/material'
 
-interface BikeTypeProps {
+interface BikeTypeProps extends ChipProps {
   type?: string
 }
 
-const BikeType = ({ type }: BikeTypeProps) => {
-  return <Chip color='secondary' data-testid='bike-type' label={type} />
+const BikeType = ({ type, ...props }: BikeTypeProps) => {
+  return <Chip color='secondary' label={type} {...props} />
 }
 
 export default BikeType
