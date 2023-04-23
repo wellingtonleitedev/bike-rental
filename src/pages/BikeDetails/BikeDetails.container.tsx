@@ -1,25 +1,21 @@
-import Bike from 'models/Bike'
-import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import BikeDetails from './BikeDetails.component'
-
-type StateReceived = {
-  bike: Bike
-}
+import { useRentBike } from './BikeDetails.utils'
+import { Paths } from 'routes/paths'
 
 const BikeDetailsContainer = () => {
   const { state } = useLocation()
-
-  const [currentBikeData, setCurrentBikeData] = useState<Bike>()
+  const navigate = useNavigate()
+  const { booked, isLoading, onSubmit } = useRentBike()
 
   useEffect(() => {
-    if (state) {
-      const { bike } = state as StateReceived
-      setCurrentBikeData(bike)
+    if (!state?.bike) {
+      navigate(Paths.HOME)
     }
   }, [])
 
-  return <BikeDetails bike={currentBikeData} />
+  return <BikeDetails bike={state.bike} booked={booked} isLoading={isLoading} onSubmit={onSubmit} />
 }
 
 export default BikeDetailsContainer
