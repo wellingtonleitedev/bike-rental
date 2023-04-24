@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { MONTH_DAY_FORMAT, WEEKDAYS_FORMAT } from './Calendar.constants'
 import { formatCalendarDate } from './Calendar.util'
 import Calendar from './Calendar.component'
 
@@ -65,7 +66,7 @@ describe('Calendar Util', () => {
   it('should be able to format a date according to the format type', () => {
     jest.useFakeTimers().setSystemTime(new Date('2023-04-06T10:00:00'))
 
-    expect(formatCalendarDate('eeeeee')('en-US', new Date())).toEqual('Th')
-    expect(formatCalendarDate('dd')('en-US', new Date())).toEqual('06')
+    expect(formatCalendarDate(WEEKDAYS_FORMAT)('en-US', new Date())).toEqual('Th')
+    expect(formatCalendarDate(MONTH_DAY_FORMAT)('en-US', new Date())).toEqual('06')
   })
 })

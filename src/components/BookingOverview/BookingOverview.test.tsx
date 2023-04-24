@@ -7,9 +7,10 @@ import { addDays } from 'date-fns'
 
 describe('BookingOverview component', () => {
   const mockSubmit = jest.fn()
+  const mockOnToggle = jest.fn()
 
   beforeEach(() => {
-    render(<BookingOverview bike={mockedBike} onSubmit={mockSubmit} />)
+    render(<BookingOverview bike={mockedBike} onSubmit={mockSubmit} onToggle={mockOnToggle} />)
   })
 
   it('should has the overview container with the prices, total and booking button', () => {
@@ -28,7 +29,9 @@ describe('BookingOverview component', () => {
   })
 
   it('should has the success messages', () => {
-    render(<BookingOverview bike={mockedBike} booked onSubmit={mockSubmit} />)
+    render(
+      <BookingOverview bike={mockedBike} booked onSubmit={mockSubmit} onToggle={mockOnToggle} />,
+    )
 
     const thanksMessage = screen.getByText(/thank you/i)
     const bikeNameElement = screen.getByTestId('bike-booked-name')

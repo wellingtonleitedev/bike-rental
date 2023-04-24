@@ -1,8 +1,31 @@
 import ReactCalendar from 'react-calendar'
-import { styled } from '@mui/material'
+import { Box, Button, ButtonProps, styled } from '@mui/material'
+
+export const DatePickerButton = styled(Button)(({ theme }) => ({
+  alignItems: 'center',
+  border: `1px solid ${theme.palette.grey[500]}`,
+  borderRadius: theme.shape.borderRadius,
+  color: theme.palette.common.black,
+  display: 'flex',
+  fontWeight: 600,
+  gap: 10,
+  justifyContent: 'flex-start',
+  padding: '10px 20px',
+  textTransform: 'none',
+  width: '100%',
+
+  svg: {
+    color: theme.palette.primary.main,
+  },
+
+  [theme.breakpoints.up('md')]: {
+    display: 'none',
+  },
+}))
 
 export const StyledCalendar = styled(ReactCalendar)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
+  border: 0,
   borderRadius: theme.shape.borderRadius,
   color: theme.palette.grey[500],
   width: '100%',
@@ -151,4 +174,29 @@ export const StyledCalendar = styled(ReactCalendar)(({ theme }) => ({
       },
     },
   },
+
+  [theme.breakpoints.down('md')]: {
+    borderRadius: '30px 30px 0 0',
+  },
+}))
+
+export const Footer = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
+  padding: 20,
+
+  [theme.breakpoints.up('md')]: {
+    display: 'none',
+  },
+}))
+
+export const SelectDateButton = styled(Button)<ButtonProps>(({ theme }) => ({
+  backgroundColor: theme.palette.secondary.main,
+  color: theme.palette.common.black,
+  borderRadius: 20,
+  flex: 1,
+  fontSize: 16,
+  fontWeight: 800,
+  padding: '15px 20px',
+  textTransform: 'capitalize',
+  width: '100%',
 }))

@@ -3,8 +3,10 @@ import BookingDetails from './BookingDetails.component'
 import { mockedBike } from 'mocks/Bike'
 
 describe('BookingDetails component', () => {
+  const mockOnToggle = jest.fn()
+
   beforeEach(() => {
-    render(<BookingDetails bike={mockedBike} />)
+    render(<BookingDetails bike={mockedBike} onToggle={mockOnToggle} />)
   })
 
   it('should has the details container with the image selector, bike name, prices and a map', () => {

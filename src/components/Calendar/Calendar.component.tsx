@@ -1,39 +1,61 @@
-import { Box, Typography } from '@mui/material'
+import { Fragment } from 'react'
+import { format } from 'date-fns'
 import { Value } from 'react-calendar/dist/cjs/shared/types'
-import { ChevronLeft, ChevronRight } from '@mui/icons-material'
+import { ChevronLeft, ChevronRight, DateRange } from '@mui/icons-material'
+import { Box, SwipeableDrawer, Typography, useMediaQuery } from '@mui/material'
+import { DATE_RANGE_LABEL_FORMAT, MONTH_DAY_FORMAT, WEEKDAYS_FORMAT } from './Calendar.constants'
+import { DatePickerButton, Footer, SelectDateButton, StyledCalendar } from './Calendar.styled'
 import NavigationLabel from './components/NavigationLabel'
-import { StyledCalendar } from './Calendar.styled'
 import { formatCalendarDate } from './Calendar.util'
+import { useDisclosure } from 'hooks'
+import theme from 'styles/theme'
 
 interface CalendarProps {
+  initialDate?: Date | null
+  finalDate?: Date | null
   onChange: (value: Value) => void
 }
 
-const WEEKDAYS_FORMAT_TYPE = 'eeeeee' // Su, Mo...
-const MONTH_DAY_FORMAT_TYPE = 'dd' // 01, 02...
+const Calendar = ({ initialDate, finalDate, ...props }: CalendarProps) => {
+  const isOnMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const { open, onToggle } = useDisclosure()
 
-const Calendar = ({ ...props }: CalendarProps) => {
-  const todaysDate = new Date()
+  const dateFrom = initialDate && format(initialDate, DATE_RANGE_LABEL_FORMAT)
+  const dateTo = finalDate && format(finalDate, DATE_RANGE_LABEL_FORMAT)
+  const showDateRangeLabel = dateFrom && dateTo
+
+  const Container = isOnMobile ? SwipeableDrawer : Fragment
 
   return (
     <Box marginBottom={1.25}>
       <Typography variant='h2' fontSize={24} padding={2.5} paddingBottom={1}>
         Select date and time
       </Typography>
-      <StyledCalendar
-        formatShortWeekday={formatCalendarDate(WEEKDAYS_FORMAT_TYPE)}
-        formatDay={formatCalendarDate(MONTH_DAY_FORMAT_TYPE)}
-        navigationLabel={NavigationLabel}
-        prevLabel={<ChevronLeft data-testid='prev-month-button' />}
-        nextLabel={<ChevronRight data-testid='next-month-button' />}
-        minDate={todaysDate}
-        prev2Label={null}
-        next2Label={null}
-        locale='en-US'
-        allowPartialRange
-        selectRange
-        {...props}
-      />
+      <DatePickerButton onClick={onToggle}>
+        <DateRange />
+        <Typography>
+          {showDateRangeLabel ? `From ${dateFrom} to ${dateTo}` : 'Pick a date'}
+        </Typography>
+      </DatePickerButton>
+      <Container anchor='bottom' open={open} onClose={onToggle} onOpen={onToggle}>
+        <StyledCalendar
+          formatShortWeekday={formatCalendarDate(WEEKDAYS_FORMAT)}
+          formatDay={formatCalendarDate(MONTH_DAY_FORMAT)}
+          navigationLabel={NavigationLabel}
+          prevLabel={<ChevronLeft data-testid='prev-month-button' />}
+          nextLabel={<ChevronRight data-testid='next-month-button' />}
+          minDate={new Date()}
+          prev2Label={null}
+          next2Label={null}
+          locale='en-US'
+          allowPartialRange
+          selectRange
+          {...props}
+        />
+        <Footer>
+          <SelectDateButton onClick={onToggle}>Select</SelectDateButton>
+        </Footer>
+      </Container>
     </Box>
   )
 }

@@ -1,12 +1,12 @@
-import { Fragment, useState } from 'react'
+import { Fragment } from 'react'
+import { Box, Divider, Typography, SwipeableDrawer, useMediaQuery } from '@mui/material'
 import { Global } from '@emotion/react'
 import theme from 'styles/theme'
-import { Box, Divider, Typography, SwipeableDrawer, useMediaQuery } from '@mui/material'
+import Bike from 'models/Bike'
 import BikeImageSelector from 'components/BikeImageSelector'
+import BookingAddressMap from 'components/BookingAddressMap'
 import BikeSpecs from 'components/BikeSpecs'
 import BikeType from 'components/BikeType'
-import BookingAddressMap from 'components/BookingAddressMap'
-import Bike from 'models/Bike'
 import {
   Container,
   DetailsContainer,
@@ -18,18 +18,22 @@ import {
   RentBikeButton,
 } from './BookingDetails.styled'
 
-const BookingDetails = ({ bike }: { bike?: Bike }) => {
+interface BookingDetailsProps {
+  bike?: Bike
+  open?: boolean
+  onToggle: () => void
+}
+
+const BookingDetails = ({ bike, open = true, onToggle }: BookingDetailsProps) => {
   const isOnMobile = useMediaQuery(theme.breakpoints.down('md'))
-  const [toggle, setToggle] = useState(true)
+
   const rateByDay = bike?.rate || 0
   const rateByWeek = rateByDay * 7
-
-  const onToggle = () => setToggle((state) => !state)
 
   const Wrapper = isOnMobile ? SwipeableDrawer : Fragment
 
   return (
-    <Wrapper anchor='bottom' open={toggle} onClose={onToggle} onOpen={onToggle}>
+    <Wrapper anchor='bottom' open={open} onClose={onToggle} onOpen={onToggle}>
       <Global
         styles={{
           '.MuiDrawer-paperAnchorBottom': {

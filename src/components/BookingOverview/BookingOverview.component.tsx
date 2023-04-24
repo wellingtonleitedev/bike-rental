@@ -7,11 +7,13 @@ import BookingSuccess from './components/BookingSuccess'
 import { RentBikeProps, RentBikeResponse, TDateRange } from 'types/bike.types'
 import { formatAmount, getServicesFee, getSubtotal } from './BookingOverview.utils'
 import { BookingButton, InfoIcon, OverviewContainer, PriceRow } from './BookingOverview.styled'
+import BikeCard from 'components/BikeCard'
 
 export interface BookingOverviewProps {
-  bike: Bike
+  bike?: Bike
   booked?: boolean
   isLoading?: boolean
+  onToggle: () => void
   onSubmit: (data: RentBikeProps) => Promise<RentBikeResponse | undefined>
 }
 
@@ -19,21 +21,24 @@ const BookingOverview = ({
   bike,
   booked = false,
   isLoading = false,
+  onToggle,
   onSubmit,
 }: BookingOverviewProps) => {
   const [dateRange, setDateRange] = useState<TDateRange>([null, null])
 
-  const subtotal = getSubtotal(dateRange, bike.rate)
+  const subtotal = getSubtotal(dateRange, bike?.rate || 0)
   const servicesFee = getServicesFee(subtotal)
   const total = subtotal + servicesFee
 
   const onChange = (dates: Value) => setDateRange(dates as TDateRange)
 
+  const [inititalDate, finalDate] = dateRange
   return (
     <OverviewContainer variant='outlined' data-testid='bike-overview-container'>
       {!booked ? (
         <>
-          <Calendar onChange={onChange} />
+          {bike && <BikeCard bike={bike} changeOnMobile handleOpenBikeDetails={onToggle} />}
+          <Calendar onChange={onChange} initialDate={inititalDate} finalDate={finalDate} />
           <Box padding={2.5}>
             <Typography variant='h2' fontSize={16} marginBottom={1.25}>
               Booking Overview
@@ -74,7 +79,7 @@ const BookingOverview = ({
               variant='contained'
               data-testid='bike-booking-button'
               disabled={!total || isLoading}
-              onClick={() => onSubmit({ bikeId: bike.id, dateRange })}
+              onClick={() => onSubmit({ bikeId: bike?.id || 0, dateRange })}
             >
               Add to booking
             </BookingButton>

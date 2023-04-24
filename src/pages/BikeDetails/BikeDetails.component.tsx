@@ -1,15 +1,18 @@
 import { Breadcrumbs, Link, Typography } from '@mui/material'
+import BookingOverview, { BookingOverviewProps } from 'components/BookingOverview'
+import BookingDetails from 'components/BookingDetails'
 import Header from 'components/Header'
+import { useDisclosure } from 'hooks'
 import {
   BreadcrumbContainer,
   BreadcrumbHome,
   BreadcrumbSeparator,
   Content,
 } from './BikeDetails.styles'
-import BookingOverview, { BookingOverviewProps } from 'components/BookingOverview'
-import BookingDetails from 'components/BookingDetails'
 
-const BikeDetails = ({ bike, ...props }: BookingOverviewProps) => {
+const BikeDetails = ({ bike, ...props }: Omit<BookingOverviewProps, 'onToggle'>) => {
+  const { open, onToggle } = useDisclosure(true)
+
   return (
     <div data-testid='bike-details-page'>
       <Header />
@@ -26,8 +29,8 @@ const BikeDetails = ({ bike, ...props }: BookingOverviewProps) => {
         </Breadcrumbs>
       </BreadcrumbContainer>
       <Content>
-        <BookingDetails bike={bike} />
-        <BookingOverview bike={bike} {...props} />
+        <BookingDetails bike={bike} open={open} onToggle={onToggle} />
+        <BookingOverview bike={bike} onToggle={onToggle} {...props} />
       </Content>
     </div>
   )
