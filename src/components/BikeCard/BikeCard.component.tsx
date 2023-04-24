@@ -63,8 +63,10 @@ const BikeCard = ({
           />
         </ImageContainer>
 
-        <Box>
-          <Name data-testid='bike-name'>{name}</Name>
+        <Box maxWidth={changeOnMobile ? '65%' : '100%'}>
+          <Name className='BikeCard__Details__Name' data-testid='bike-name'>
+            {name}
+          </Name>
 
           {!changeOnMobile && <Divider />}
 
