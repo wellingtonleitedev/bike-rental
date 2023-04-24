@@ -25,3 +25,13 @@ export const BookingButton = styled(Button)<ButtonProps>(({ theme }) => ({
   color: theme.palette.common.white,
   fontWeight: 800,
 }))
+
+export const ModalContent = styled(Box)(({ theme }) => ({
+  alignItems: 'center',
+  backgroundColor: '#fff',
+  borderRadius: theme.shape.borderRadius,
+  display: 'flex',
+  flexDirection: 'column',
+  margin: '25% 20px',
+  padding: 20,
+}))

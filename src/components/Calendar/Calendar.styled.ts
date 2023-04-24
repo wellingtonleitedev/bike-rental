@@ -199,4 +199,8 @@ export const SelectDateButton = styled(Button)<ButtonProps>(({ theme }) => ({
   padding: '15px 20px',
   textTransform: 'capitalize',
   width: '100%',
+
+  '&:hover': {
+    backgroundColor: theme.palette.secondary.main,
+  },
 }))
