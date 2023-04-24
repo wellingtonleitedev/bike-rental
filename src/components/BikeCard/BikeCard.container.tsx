@@ -1,21 +1,19 @@
 import Bike from 'models/Bike'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Paths } from 'routes/paths'
 import BikeCard from './BikeCard.component'
 
 interface BikeCardProps {
   bike: Bike
+  changeOnMobile?: boolean
+  handleOpenBikeDetails: () => void
 }
 
-const BikeCardContainer = ({ bike }: BikeCardProps) => {
-  const navigate = useNavigate()
-
+const BikeCardContainer = ({
+  bike,
+  changeOnMobile = false,
+  handleOpenBikeDetails,
+}: BikeCardProps) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false)
-
-  const handleOpenBikeDetails = () => {
-    navigate(Paths.BIKE_DETAILS, { state: { bike } })
-  }
 
   const handleIsImageLoaded = (isLoading: boolean) => {
     setIsImageLoaded(isLoading)
@@ -27,6 +25,7 @@ const BikeCardContainer = ({ bike }: BikeCardProps) => {
       isImageLoaded={isImageLoaded}
       handleIsImageLoaded={handleIsImageLoaded}
       handleOpenBikeDetails={handleOpenBikeDetails}
+      changeOnMobile={changeOnMobile}
       name={bike.name}
       type={bike.type}
       bodySize={bike.bodySize}

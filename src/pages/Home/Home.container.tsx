@@ -1,21 +1,17 @@
-import Bike from 'models/Bike'
-import { useEffect, useState } from 'react'
-import apiClient from 'services/api'
 import Home from './Home.component'
+import { useQuery } from '@tanstack/react-query'
+import { getBikes } from 'services'
+
+const oneMinute = 1000 * 60
 
 const HomeContainer = () => {
-  const [bikes, setBikes] = useState<Bike[]>([])
+  const { data: bikes = [], isLoading } = useQuery({
+    queryKey: ['bikes'],
+    queryFn: getBikes,
+    staleTime: oneMinute,
+  })
 
-  useEffect(() => {
-    const getAllBikes = async () => {
-      const response = await apiClient.get('/bikes')
-      setBikes(response.data)
-    }
-
-    getAllBikes()
-  }, [])
-
-  return <Home bikes={bikes} />
+  return <Home bikes={bikes} isLoading={isLoading} />
 }
 
 export default HomeContainer

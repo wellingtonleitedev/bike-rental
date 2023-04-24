@@ -1,5 +1,6 @@
-import { Divider, IconButton, Typography } from '@mui/material'
+import { Box, Divider, IconButton, Typography } from '@mui/material'
 import BikeType from 'components/BikeType'
+import BikeImage from 'components/BikeImage'
 import BikePlaceholder from 'assets/bike-placeholder.png'
 import Bike from 'models/Bike'
 import {
@@ -10,7 +11,6 @@ import {
   PriceText,
   ImageContainer,
   FavoriteIcon,
-  BikeImage,
 } from './BikeCard.styles'
 
 type JustDisplayedBikeData = Omit<Bike, 'candidateId' | 'maxLoad' | 'ratings'>
@@ -18,6 +18,7 @@ type JustDisplayedBikeData = Omit<Bike, 'candidateId' | 'maxLoad' | 'ratings'>
 interface BikeCardComponentProps extends JustDisplayedBikeData {
   isImageLoaded: boolean
   cardImage: string
+  changeOnMobile: boolean
   handleOpenBikeDetails: () => void
   handleIsImageLoaded: (isLoading: boolean) => void
 }
@@ -28,6 +29,7 @@ const BikeCard = ({
   cardImage,
   type,
   rate,
+  changeOnMobile,
   handleOpenBikeDetails,
   handleIsImageLoaded,
 }: BikeCardComponentProps) => {
@@ -38,11 +40,11 @@ const BikeCard = ({
   )
 
   return (
-    <Container variant='outlined' data-testid='bike-card'>
-      <Header action={LikeButton} />
+    <Container variant='outlined' data-testid='bike-card' changeonmobile={changeOnMobile ? 1 : 0}>
+      {!changeOnMobile && <Header action={LikeButton} />}
 
-      <div onClick={handleOpenBikeDetails}>
-        <ImageContainer>
+      <div className='BikeCard__Content' onClick={handleOpenBikeDetails}>
+        <ImageContainer className='BikeCard__Content__ImageContainer'>
           {!isImageLoaded && (
             <img
               src={BikePlaceholder}
@@ -55,31 +57,33 @@ const BikeCard = ({
           <BikeImage
             src={cardImage}
             isLoaded={isImageLoaded}
-            width='100%'
-            alt='Bike Image'
             data-testid='bike-image'
             onLoadStart={() => handleIsImageLoaded(false)}
             onLoad={() => handleIsImageLoaded(true)}
           />
         </ImageContainer>
 
-        <Name data-testid='bike-name'>{name}</Name>
+        <Box>
+          <Name data-testid='bike-name'>{name}</Name>
 
-        <Divider />
+          {!changeOnMobile && <Divider />}
 
-        <Footer
-          display='flex'
-          justifyContent='space-between'
-          alignItems='center'
-          data-testid='card-footer'
-        >
-          <BikeType type={type} />
+          <Footer
+            className='BikeCard__Details__Footer'
+            display='flex'
+            justifyContent='space-between'
+            data-testid='card-footer'
+          >
+            <BikeType type={type} data-testid='bike-type' />
 
-          <Typography letterSpacing={1} data-testid='bike-price-day'>
-            <PriceText component={'span'}>{rate} €/</PriceText>
-            Day
-          </Typography>
-        </Footer>
+            <Typography letterSpacing={1} data-testid='bike-price-day'>
+              <PriceText className='BikeCard__Footer__PriceText' component={'span'}>
+                {rate} €/
+              </PriceText>
+              Day
+            </Typography>
+          </Footer>
+        </Box>
       </div>
     </Container>
   )
