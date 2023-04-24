@@ -1,6 +1,5 @@
 import { Fragment } from 'react'
 import { Box, Divider, Typography, SwipeableDrawer, useMediaQuery } from '@mui/material'
-import { Global } from '@emotion/react'
 import theme from 'styles/theme'
 import Bike from 'models/Bike'
 import BikeImageSelector from 'components/BikeImageSelector'
@@ -30,17 +29,16 @@ const BookingDetails = ({ bike, open = true, onToggle }: BookingDetailsProps) =>
   const rateByDay = bike?.rate || 0
   const rateByWeek = rateByDay * 7
 
-  const Wrapper = isOnMobile ? SwipeableDrawer : Fragment
+  const Wrapper = isOnMobile
+    ? ({ children }: { children: JSX.Element }) => (
+        <SwipeableDrawer anchor='bottom' open={open} onClose={onToggle} onOpen={onToggle}>
+          {children}
+        </SwipeableDrawer>
+      )
+    : Fragment
 
   return (
-    <Wrapper anchor='bottom' open={open} onClose={onToggle} onOpen={onToggle}>
-      <Global
-        styles={{
-          '.MuiDrawer-paperAnchorBottom': {
-            borderRadius: '30px 30px 0 0',
-          },
-        }}
-      />
+    <Wrapper>
       <Container variant='outlined' data-testid='bike-details-container'>
         <ImageContainer>
           {!!bike?.imageUrls.length && <BikeImageSelector imageUrls={bike?.imageUrls} />}

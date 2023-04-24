@@ -1,3 +1,4 @@
+import { Global } from '@emotion/react'
 import { ThemeProvider } from '@mui/system'
 import { BrowserRouter } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
@@ -13,6 +14,13 @@ const App = () => {
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
+        <Global
+          styles={{
+            '.MuiDrawer-paperAnchorBottom': {
+              borderRadius: '30px 30px 0 0',
+            },
+          }}
+        />
         <ToastContainer pauseOnHover />
         <QueryClientProvider client={queryClient}>
           <AppRoutes />
