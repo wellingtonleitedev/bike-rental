@@ -5,15 +5,15 @@ import { Content } from './Home.styles'
 
 interface HomeProps {
   bikes: Bike[]
+  isLoading?: boolean
 }
 
-const Home = ({ bikes }: HomeProps) => {
+const Home = ({ bikes, isLoading = true }: HomeProps) => {
   return (
     <div data-testid='home-page'>
       <Header />
-
       <Content>
-        <BikeList bikes={bikes} />
+        <BikeList bikes={bikes} isLoading={isLoading} />
       </Content>
     </div>
   )

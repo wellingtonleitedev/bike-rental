@@ -1,18 +1,20 @@
 import { Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import Bike from 'models/Bike'
+import { Container, ListContainer, QuantityContainer } from './BikeList.styles'
 import { getQuantityLabel } from './BikeList.utils'
 import BikeCard from 'components/BikeCard'
-import { Container, ListContainer, QuantityContainer } from './BikeList.styles'
+import Loading from 'components/Loading'
 import { Paths } from 'routes/paths'
+import Bike from 'models/Bike'
 
 interface BikeListProps {
   bikes: Bike[]
+  isLoading: boolean
 }
 
-const BikeList = ({ bikes }: BikeListProps) => {
+const BikeList = ({ bikes, isLoading }: BikeListProps) => {
+  const quantityLabel = getQuantityLabel(!isLoading ? bikes.length : 0)
   const navigate = useNavigate()
-  const quantityLabel = getQuantityLabel(bikes.length)
 
   const handleOpenBikeDetails = (bike: Bike) => () => {
     navigate(Paths.BIKE_DETAILS, { state: { bike } })
@@ -27,9 +29,17 @@ const BikeList = ({ bikes }: BikeListProps) => {
       </QuantityContainer>
 
       <ListContainer>
-        {bikes.map((bike) => (
-          <BikeCard key={bike.id} bike={bike} handleOpenBikeDetails={handleOpenBikeDetails(bike)} />
-        ))}
+        {isLoading ? (
+          <Loading quantity={6} variant='rectangular' height={300} />
+        ) : (
+          bikes.map((bike) => (
+            <BikeCard
+              key={bike.id}
+              bike={bike}
+              handleOpenBikeDetails={handleOpenBikeDetails(bike)}
+            />
+          ))
+        )}
       </ListContainer>
     </Container>
   )

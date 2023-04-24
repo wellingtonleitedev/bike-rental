@@ -95,4 +95,8 @@ export const RentBikeButton = styled(Button)<ButtonProps>(({ theme }) => ({
   fontSize: 16,
   fontWeight: 800,
   textTransform: 'capitalize',
+
+  '&:hover': {
+    backgroundColor: theme.palette.secondary.main,
+  },
 }))

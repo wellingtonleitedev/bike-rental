@@ -1,8 +1,10 @@
-import { useLocation } from 'react-router-dom'
-import BikeDetails from './BikeDetails.component'
-import { useRentBike } from './BikeDetails.utils'
-import Bike from 'models/Bike'
 import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import BikeDetails from './BikeDetails.component'
+import { errorHandler } from 'utils'
+import { rentBike } from 'services'
+import Bike from 'models/Bike'
 
 type StateReceived = {
   bike: Bike
@@ -10,7 +12,15 @@ type StateReceived = {
 
 const BikeDetailsContainer = () => {
   const { state } = useLocation()
-  const { booked, isLoading, onSubmit } = useRentBike()
+  const queryClient = useQueryClient()
+  const { data, isLoading, mutateAsync } = useMutation({
+    mutationFn: rentBike,
+    onError: errorHandler,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['bikes'] })
+    },
+  })
+
   const [currentBikeData, setCurrentBikeData] = useState<Bike>()
 
   useEffect(() => {
@@ -21,7 +31,12 @@ const BikeDetailsContainer = () => {
   }, [])
 
   return (
-    <BikeDetails bike={currentBikeData} booked={booked} isLoading={isLoading} onSubmit={onSubmit} />
+    <BikeDetails
+      bike={currentBikeData}
+      booked={!!data}
+      isLoading={isLoading}
+      onSubmit={mutateAsync}
+    />
   )
 }
 

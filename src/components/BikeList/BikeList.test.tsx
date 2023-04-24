@@ -5,12 +5,18 @@ import BikeList from '.'
 
 describe('BikeList component', () => {
   beforeEach(() => {
-    render(<BikeList bikes={mockedBikesArray} />)
+    render(<BikeList bikes={mockedBikesArray} isLoading={false} />)
   })
 
   it('should has the quantity of bikes in the list', () => {
     const quantityElement = screen.getByTestId('list-quantity')
     expect(quantityElement).toBeInTheDocument()
+  })
+
+  it('should displays a loading skeleton', async () => {
+    render(<BikeList bikes={mockedBikesArray} isLoading />)
+    const [loadingElement] = screen.getAllByTestId('loading-skeleton')
+    expect(loadingElement).toBeInTheDocument()
   })
 
   it('should displays a list of bikes', async () => {

@@ -1,20 +1,21 @@
 import { useState } from 'react'
-import { Box, Divider, Typography } from '@mui/material'
+import { UseMutateAsyncFunction } from '@tanstack/react-query'
 import { Value } from 'react-calendar/dist/cjs/shared/types'
-import Bike from 'models/Bike'
-import Calendar from 'components/Calendar'
-import BookingSuccess from './components/BookingSuccess'
+import { Box, Divider, Typography } from '@mui/material'
+import { BookingButton, InfoIcon, OverviewContainer, PriceRow } from './BookingOverview.styled'
 import { RentBikeProps, RentBikeResponse, TDateRange } from 'types/bike.types'
 import { formatAmount, getServicesFee, getSubtotal } from './BookingOverview.utils'
-import { BookingButton, InfoIcon, OverviewContainer, PriceRow } from './BookingOverview.styled'
+import BookingSuccess from './components/BookingSuccess'
+import Calendar from 'components/Calendar'
 import BikeCard from 'components/BikeCard'
+import Bike from 'models/Bike'
 
 export interface BookingOverviewProps {
   bike?: Bike
   booked?: boolean
   isLoading?: boolean
   onToggle: () => void
-  onSubmit: (data: RentBikeProps) => Promise<RentBikeResponse | undefined>
+  onSubmit: UseMutateAsyncFunction<RentBikeResponse, unknown, RentBikeProps>
 }
 
 const BookingOverview = ({
