@@ -30,7 +30,7 @@ const BikeList = ({ bikes, isLoading }: BikeListProps) => {
 
       <ListContainer>
         {isLoading ? (
-          <Loading quantity={6} variant='rectangular' height={300} />
+          <Loading quantity={6} variant='rectangular' sx={{ borderRadius: 1 }} height={300} />
         ) : (
           bikes.map((bike) => (
             <BikeCard
