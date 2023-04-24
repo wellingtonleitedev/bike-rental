@@ -1,14 +1,21 @@
 import { useState } from 'react'
 import { UseMutateAsyncFunction } from '@tanstack/react-query'
 import { Value } from 'react-calendar/dist/cjs/shared/types'
-import { Box, Divider, Typography } from '@mui/material'
-import { BookingButton, InfoIcon, OverviewContainer, PriceRow } from './BookingOverview.styled'
+import { Box, Divider, Modal, Typography, useMediaQuery } from '@mui/material'
 import { RentBikeProps, RentBikeResponse, TDateRange } from 'types/bike.types'
 import { formatAmount, getServicesFee, getSubtotal } from './BookingOverview.utils'
 import BookingSuccess from './components/BookingSuccess'
 import Calendar from 'components/Calendar'
 import BikeCard from 'components/BikeCard'
 import Bike from 'models/Bike'
+import theme from 'styles/theme'
+import {
+  BookingButton,
+  InfoIcon,
+  ModalContent,
+  OverviewContainer,
+  PriceRow,
+} from './BookingOverview.styled'
 
 export interface BookingOverviewProps {
   bike?: Bike
@@ -25,6 +32,7 @@ const BookingOverview = ({
   onToggle,
   onSubmit,
 }: BookingOverviewProps) => {
+  const isOnMobile = useMediaQuery(theme.breakpoints.down('md'))
   const [dateRange, setDateRange] = useState<TDateRange>([null, null])
 
   const subtotal = getSubtotal(dateRange, bike?.rate || 0)
@@ -36,7 +44,9 @@ const BookingOverview = ({
   const [inititalDate, finalDate] = dateRange
   return (
     <OverviewContainer variant='outlined' data-testid='bike-overview-container'>
-      {!booked ? (
+      {!isOnMobile && booked ? (
+        <BookingSuccess bike={bike} />
+      ) : (
         <>
           {bike && <BikeCard bike={bike} changeOnMobile handleOpenBikeDetails={onToggle} />}
           <Calendar onChange={onChange} initialDate={inititalDate} finalDate={finalDate} />
@@ -79,15 +89,18 @@ const BookingOverview = ({
               disableElevation
               variant='contained'
               data-testid='bike-booking-button'
-              disabled={!total || isLoading}
+              disabled={!total || isLoading || booked}
               onClick={() => onSubmit({ bikeId: bike?.id || 0, dateRange })}
             >
               Add to booking
             </BookingButton>
           </Box>
+          <Modal open={booked}>
+            <ModalContent>
+              <BookingSuccess bike={bike} />
+            </ModalContent>
+          </Modal>
         </>
-      ) : (
-        <BookingSuccess bike={bike} />
       )}
     </OverviewContainer>
   )
