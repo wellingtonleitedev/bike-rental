@@ -19,7 +19,7 @@ import {
 
 export interface BookingOverviewProps {
   bike?: Bike
-  booked?: boolean
+  booked?: RentBikeResponse
   isLoading?: boolean
   onToggle: () => void
   onSubmit: UseMutateAsyncFunction<RentBikeResponse, unknown, RentBikeProps>
@@ -27,7 +27,7 @@ export interface BookingOverviewProps {
 
 const BookingOverview = ({
   bike,
-  booked = false,
+  booked,
   isLoading = false,
   onToggle,
   onSubmit,
@@ -42,13 +42,14 @@ const BookingOverview = ({
   const onChange = (dates: Value) => setDateRange(dates as TDateRange)
 
   const [inititalDate, finalDate] = dateRange
+  const amount = booked?.totalAmount || 0
   return (
     <OverviewContainer variant='outlined' data-testid='bike-overview-container'>
       {!isOnMobile && booked ? (
-        <BookingSuccess bike={bike} />
+        <BookingSuccess bike={bike} amount={amount} />
       ) : (
         <>
-          {bike && <BikeCard bike={bike} changeOnMobile handleOpenBikeDetails={onToggle} />}
+          {bike && <BikeCard bike={bike} horizontal handleOpenBikeDetails={onToggle} />}
           <Calendar onChange={onChange} initialDate={inititalDate} finalDate={finalDate} />
           <Box padding={2.5}>
             <Typography variant='h2' fontSize={16} marginBottom={1.25}>
@@ -89,15 +90,15 @@ const BookingOverview = ({
               disableElevation
               variant='contained'
               data-testid='bike-booking-button'
-              disabled={!total || isLoading || booked}
+              disabled={!total || isLoading || !!booked}
               onClick={() => onSubmit({ bikeId: bike?.id || 0, dateRange })}
             >
               Add to booking
             </BookingButton>
           </Box>
-          <Modal open={booked}>
+          <Modal open={!!booked}>
             <ModalContent>
-              <BookingSuccess bike={bike} />
+              <BookingSuccess bike={bike} amount={amount} />
             </ModalContent>
           </Modal>
         </>

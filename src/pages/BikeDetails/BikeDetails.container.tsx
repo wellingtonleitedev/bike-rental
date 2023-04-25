@@ -33,7 +33,7 @@ const BikeDetailsContainer = () => {
   return (
     <BikeDetails
       bike={currentBikeData}
-      booked={!!data}
+      booked={data}
       isLoading={isLoading}
       onSubmit={mutateAsync}
     />

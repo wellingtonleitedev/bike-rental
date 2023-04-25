@@ -4,13 +4,15 @@ import BikeImage from 'components/BikeImage'
 import BikeType from 'components/BikeType'
 import { Paths } from 'routes/paths'
 import Bike from 'models/Bike'
+import { formatAmount } from '../../BookingOverview.utils'
 import { Container, GoBackButton, ImageBox } from './BookingSuccess.styled'
 
 interface BikeDetailsProps {
   bike?: Bike
+  amount: number
 }
 
-const BookingSuccess = ({ bike }: BikeDetailsProps) => {
+const BookingSuccess = ({ bike, amount }: BikeDetailsProps) => {
   const navigate = useNavigate()
 
   return (
@@ -33,6 +35,15 @@ const BookingSuccess = ({ bike }: BikeDetailsProps) => {
         {bike?.name}
       </Typography>
       <BikeType type={bike?.type} data-testid='bike-booked-type' />
+      <Typography
+        color='common.black'
+        fontSize={24}
+        fontWeight={800}
+        marginTop={2}
+        data-testid='bike-booked-amount'
+      >
+        {formatAmount(amount)}
+      </Typography>
       <GoBackButton onClick={() => navigate(Paths.HOME)}>Go to Home Page</GoBackButton>
     </Container>
   )
