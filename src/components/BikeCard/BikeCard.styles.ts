@@ -29,7 +29,6 @@ const onMobileStyle = {
     overflow: 'hidden',
     whiteSpace: 'nowrap',
   },
-  '.BikeCard__Content__Details': {},
   '.BikeCard__Details__Footer': {
     alignItems: 'flex-start',
     flexDirection: 'column',
@@ -41,8 +40,8 @@ const onMobileStyle = {
   },
 }
 
-export const Container = styled(Card)<CardProps & { changeonmobile?: number }>(
-  ({ theme, changeonmobile }) => ({
+export const Container = styled(Card)<CardProps & { horizontal?: number }>(
+  ({ theme, horizontal }) => ({
     borderColor: theme.palette.grey[500],
     margin: '0 auto',
     maxWidth: 400,
@@ -64,16 +63,12 @@ export const Container = styled(Card)<CardProps & { changeonmobile?: number }>(
       width: '100%',
     },
 
-    '&': changeonmobile
+    '&': horizontal
       ? {
           margin: 0,
           maxWidth: '100%',
           padding: 10,
           ...onMobileStyle,
-
-          [theme.breakpoints.up('md')]: {
-            display: 'none',
-          },
         }
       : {},
   }),
