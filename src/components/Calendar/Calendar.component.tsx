@@ -24,13 +24,7 @@ const Calendar = ({ initialDate, finalDate, ...props }: CalendarProps) => {
   const dateTo = finalDate && format(finalDate, DATE_RANGE_LABEL_FORMAT)
   const showDateRangeLabel = dateFrom && dateTo
 
-  const Container = isOnMobile
-    ? ({ children }: { children: JSX.Element[] }) => (
-        <SwipeableDrawer anchor='bottom' open={open} onClose={onToggle} onOpen={onToggle}>
-          {children}
-        </SwipeableDrawer>
-      )
-    : Fragment
+  const Container = isOnMobile ? SwipeableDrawer : Fragment
 
   return (
     <Box marginBottom={1.25}>
@@ -43,7 +37,7 @@ const Calendar = ({ initialDate, finalDate, ...props }: CalendarProps) => {
           {showDateRangeLabel ? `From ${dateFrom} to ${dateTo}` : 'Pick a date'}
         </Typography>
       </DatePickerButton>
-      <Container>
+      <Container anchor='bottom' open={open} onClose={onToggle} onOpen={onToggle}>
         <StyledCalendar
           formatShortWeekday={formatCalendarDate(WEEKDAYS_FORMAT)}
           formatDay={formatCalendarDate(MONTH_DAY_FORMAT)}
