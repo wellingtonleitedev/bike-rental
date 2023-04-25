@@ -4,15 +4,11 @@ import BikeCard from './BikeCard.component'
 
 interface BikeCardProps {
   bike: Bike
-  changeOnMobile?: boolean
+  horizontal?: boolean
   handleOpenBikeDetails: () => void
 }
 
-const BikeCardContainer = ({
-  bike,
-  changeOnMobile = false,
-  handleOpenBikeDetails,
-}: BikeCardProps) => {
+const BikeCardContainer = ({ bike, horizontal = false, handleOpenBikeDetails }: BikeCardProps) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false)
 
   const handleIsImageLoaded = (isLoading: boolean) => {
@@ -25,7 +21,7 @@ const BikeCardContainer = ({
       isImageLoaded={isImageLoaded}
       handleIsImageLoaded={handleIsImageLoaded}
       handleOpenBikeDetails={handleOpenBikeDetails}
-      changeOnMobile={changeOnMobile}
+      horizontal={horizontal}
       name={bike.name}
       type={bike.type}
       bodySize={bike.bodySize}

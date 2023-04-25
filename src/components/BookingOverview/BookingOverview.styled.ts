@@ -5,6 +5,12 @@ export const OverviewContainer = styled(Card)<CardProps>(({ theme }) => ({
   alignSelf: 'start',
   borderColor: theme.palette.grey[500],
   padding: 10,
+
+  '& .BikeCard': {
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
+  },
 }))
 
 export const PriceRow = styled(Box)<BoxProps>(() => ({

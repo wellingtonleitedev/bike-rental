@@ -18,7 +18,7 @@ type JustDisplayedBikeData = Omit<Bike, 'candidateId' | 'maxLoad' | 'ratings'>
 interface BikeCardComponentProps extends JustDisplayedBikeData {
   isImageLoaded: boolean
   cardImage: string
-  changeOnMobile: boolean
+  horizontal: boolean
   handleOpenBikeDetails: () => void
   handleIsImageLoaded: (isLoading: boolean) => void
 }
@@ -29,7 +29,7 @@ const BikeCard = ({
   cardImage,
   type,
   rate,
-  changeOnMobile,
+  horizontal,
   handleOpenBikeDetails,
   handleIsImageLoaded,
 }: BikeCardComponentProps) => {
@@ -40,8 +40,13 @@ const BikeCard = ({
   )
 
   return (
-    <Container variant='outlined' data-testid='bike-card' changeonmobile={changeOnMobile ? 1 : 0}>
-      {!changeOnMobile && <Header action={LikeButton} />}
+    <Container
+      className='BikeCard'
+      variant='outlined'
+      data-testid='bike-card'
+      horizontal={horizontal ? 1 : 0}
+    >
+      {!horizontal && <Header action={LikeButton} />}
 
       <div className='BikeCard__Content' onClick={handleOpenBikeDetails}>
         <ImageContainer className='BikeCard__Content__ImageContainer'>
@@ -63,12 +68,12 @@ const BikeCard = ({
           />
         </ImageContainer>
 
-        <Box maxWidth={changeOnMobile ? '65%' : '100%'}>
+        <Box maxWidth={horizontal ? '65%' : '100%'}>
           <Name className='BikeCard__Details__Name' data-testid='bike-name'>
             {name}
           </Name>
 
-          {!changeOnMobile && <Divider />}
+          {!horizontal && <Divider />}
 
           <Footer
             className='BikeCard__Details__Footer'
