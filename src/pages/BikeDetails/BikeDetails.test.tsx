@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router-dom'
 import BikeDetails from './BikeDetails.component'
-import { mockedBike } from 'mocks/Bike'
+import { mockedBike, mockedRentResponse } from 'mocks/Bike'
 
 const todaysFakeDate = new Date('2023-04-20T10:00:00')
 
@@ -51,5 +51,19 @@ describe('BikeDetails page', () => {
     const bookingButton = screen.getByTestId('bike-booking-button')
     await waitFor(async () => userEvent.click(bookingButton))
     expect(mockSubmit).toBeCalled()
+  })
+
+  it('should be able to see the success message after rent a bike', async () => {
+    render(
+      <BrowserRouter>
+        <BikeDetails bike={mockedBike} booked={mockedRentResponse} onSubmit={mockSubmit} />
+      </BrowserRouter>,
+    )
+
+    const successMessage = screen.getByText(/your bike is booked/i)
+    const totalAmount = screen.getByText(/131/i)
+
+    expect(successMessage).toBeInTheDocument()
+    expect(totalAmount).toBeInTheDocument()
   })
 })
